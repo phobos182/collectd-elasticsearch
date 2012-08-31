@@ -120,6 +120,8 @@ def configure_callback(conf):
             ES_PORT = int(node.values[0])
         elif node.key == 'Verbose':
             VERBOSE_LOGGING = bool(node.values[0])
+        elif node.key == 'Cluster':
+            ES_CLUSTER = node.values[0]
         else:
             collectd.warning('elasticsearch plugin: Unknown config key: %s.'
                              % node.key)
