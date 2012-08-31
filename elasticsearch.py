@@ -123,7 +123,8 @@ def configure_callback(conf):
         else:
             collectd.warning('elasticsearch plugin: Unknown config key: %s.'
                              % node.key)
-    ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_cluster/nodes/_local/stats"
+    ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_cluster/nodes/_local/stats?http=true&process=true&jvm=true&transport=true"
+
     log_verbose('Configured with host=%s, port=%s, url=%s' % (ES_HOST, ES_PORT, ES_URL))
 
 def fetch_stats(): 
