@@ -153,6 +153,9 @@ def dispatch_stat(result, name, key):
     if not key.has_key("path"):
         collectd.warning('elasticsearch plugin: Stat not found: %s' % key)
         return
+    if result is None:
+        collectd.warning('elasticsearch plugin: Value not found for %s' % name)
+        return
     type = key["type"]
     value = int(result)
     log_verbose('Sending value[%s]: %s=%s' % (type, name, value))
