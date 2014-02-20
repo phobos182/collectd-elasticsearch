@@ -1,4 +1,4 @@
-elasticsearch-collectd-plugin
+elasticsearch-1.0-collectd-plugin
 =====================
 
 A [ElasticSearch](http://elasticsearch.org) plugin for [collectd](http://collectd.org) using collectd's [Python plugin](http://collectd.org/documentation/manpages/collectd-python.5.shtml).
@@ -24,3 +24,4 @@ See elasticsearch.conf
 Requirements
 ------------
  * collectd 4.9+
+ * Elasticsearch 1.0
