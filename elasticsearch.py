@@ -176,11 +176,20 @@ def configure_callback(conf):
             collectd.warning('elasticsearch plugin: Unknown config key: %s.'
                              % node.key)
     if ES_VERSION == "1.0":
-        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_nodes/_local/stats/transport,http,process,jvm,indices"
+        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_nodes/_local/stats/transport,http,process,jvm,indices,thread_pool"
         STATS_CUR = dict(STATS.items() + STATS_ES1.items())
     else:
-        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_cluster/nodes/_local/stats?http=true&process=true&jvm=true&transport=true"
+        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_cluster/nodes/_local/stats?http=true&process=true&jvm=true&transport=true&thread_pool=true"
         STATS_CUR = dict(STATS.items() + STATS_ES09.items())
+
+    # add info on thread pools
+    for pool in ['generic', 'index', 'get', 'snapshot', 'merge', 'optimize', 'bulk', 'warmer', 'flush', 'search', 'refresh']:
+      for attr in ['threads', 'queue', 'active', 'largest']:
+        path = 'thread_pool.{0}.{1}'.format(pool, attr)
+        STATS_CUR[path] = Stat("gauge", 'nodes.%s.{0}'.format(path))
+      for attr in ['completed', 'rejected']:
+        path = 'thread_pool.{0}.{1}'.format(pool, attr)
+        STATS_CUR[path] = Stat("counter", 'nodes.%s.{0}'.format(path))
 
     log_verbose('Configured with version=%s, host=%s, port=%s, url=%s' % (ES_VERSION, ES_HOST, ES_PORT, ES_URL))
 
