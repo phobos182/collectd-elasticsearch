@@ -136,7 +136,7 @@ STATS = {
 
     # HTTP METRICS #
     'http.current_open': Stat("gauge", "nodes.%s.http.current_open"),
-    'http.total_open': Stat("gauge", "nodes.%s.http.total_opened"),
+    'http.total_open': Stat("counter", "nodes.%s.http.total_opened"),
 
     # PROCESS METRICS #
     'process.open_file_descriptors': Stat("gauge", "nodes.%s.process.open_file_descriptors"),
