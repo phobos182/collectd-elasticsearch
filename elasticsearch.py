@@ -1,4 +1,18 @@
 #! /usr/bin/python
+#Copyright 2014 Jeremy Carroll
+#
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
 
 import collectd
 import json
@@ -163,10 +177,11 @@ def lookup_stat(stat, json):
 
     # Check to make sure we have a valid result
     # dig_it_up returns False if no match found
-    if not isinstance(val,bool):
+    if not isinstance(val, bool):
         return int(val)
     else:
         return None
+
 
 def configure_callback(conf):
     """Received configuration information"""
@@ -194,24 +209,27 @@ def configure_callback(conf):
 
     log_verbose('Configured with version=%s, host=%s, port=%s, url=%s' % (ES_VERSION, ES_HOST, ES_PORT, ES_URL))
 
-def fetch_stats(): 
+
+def fetch_stats():
     global ES_CLUSTER
 
     try:
-        result = json.load(urllib2.urlopen(ES_URL, timeout = 10))
+        result = json.load(urllib2.urlopen(ES_URL, timeout=10))
     except urllib2.URLError, e:
         collectd.error('elasticsearch plugin: Error connecting to %s - %r' % (ES_URL, e))
         return None
     print result['cluster_name']
-  
+
     ES_CLUSTER = result['cluster_name']
     return parse_stats(result)
+
 
 def parse_stats(json):
     """Parse stats response from ElasticSearch"""
     for name, key in STATS_CUR.iteritems():
         result = lookup_stat(name, json)
         dispatch_stat(result, name, key)
+
 
 def dispatch_stat(result, name, key):
     """Read a key from info response data and dispatch a value"""
@@ -229,17 +247,20 @@ def dispatch_stat(result, name, key):
     val.values = [value]
     val.dispatch()
 
+
 def read_callback():
     log_verbose('Read callback called')
     stats = fetch_stats()
 
-def dig_it_up(obj,path):
+
+def dig_it_up(obj, path):
     try:
-        if type(path) in (str,unicode):
+        if type(path) in (str, unicode):
             path = path.split('.')
-        return reduce(lambda x,y:x[y],path,obj)
+        return reduce(lambda x, y: x[y], path, obj)
     except:
         return False
+
 
 def log_verbose(msg):
     if not VERBOSE_LOGGING:
@@ -248,4 +269,3 @@ def log_verbose(msg):
 
 collectd.register_config(configure_callback)
 collectd.register_read(read_callback)
-
