@@ -37,15 +37,8 @@ STATS_ES1 = {
     ## STORE
     'indices.store.throttle-time': Stat("counter", "nodes.%s.indices.store.throttle_time_in_millis"),
 
-    ##INDEXING
-    'indices.indexing.index-current': Stat("counter", "nodes.%s.indices.indexing.index_current"),
-    'indices.indexing.delete-current': Stat("counter", "nodes.%s.indices.indexing.delete_current"),
-
-    ##GET
-    'indices.get.current': Stat("counter", "nodes.%s.indices.get.current"),
-
     ##SEARCH
-    'indices.search.open-contexts': Stat("counter", "nodes.%s.indices.search.open_contexts"),
+    'indices.search.open-contexts': Stat("gauge", "nodes.%s.indices.search.open_contexts"),
 
     ##CACHE
     'indices.cache.field.eviction': Stat("counter", "nodes.%s.indices.fielddata.evictions"),
@@ -84,30 +77,8 @@ STATS_ES09 = {
     'jvm.gc.time': Stat("counter", "nodes.%s.jvm.gc.collection_time_in_millis"),
     'jvm.gc.count': Stat("counter", "nodes.%s.jvm.gc.collection_count"),
 
-}
-
-# DICT: Old stuff
-STATS_OLD = {
-
-    ##CACHE
-    'indices.cache.field.eviction': Stat("counter", "nodes.%s.indices.cache.field_evictions"),
-    'indices.cache.field.size': Stat("bytes", "nodes.%s.indices.cache.field_size_in_bytes"),
-    'indices.cache.filter.count': Stat("counter", "nodes.%s.indices.cache.filter_count"),
-    'indices.cache.filter.evictions': Stat("counter", "nodes.%s.indices.cache.filter_evictions"),
-    'indices.cache.filter.size': Stat("bytes", "nodes.%s.indices.cache.filter_size_in_bytes"),
-
-    ## MERGES
-    'indices.merges.current': Stat("gauge", "nodes.%s.indices.merges.current"),
-    'indices.merges.current-docs': Stat("gauge", "nodes.%s.indices.merges.current_docs"),
-    'indices.merges.current-size': Stat("bytes", "nodes.%s.indices.merges.current_size_in_bytes"),
-    'indices.merges.total': Stat("counter", "nodes.%s.indices.merges.total"),
-    'indices.merges.total-docs': Stat("gauge", "nodes.%s.indices.merges.total_docs"),
-    'indices.merges.total-size': Stat("bytes", "nodes.%s.indices.merges.total_size_in_bytes"),
-    'indices.merges.time': Stat("counter", "nodes.%s.indices.merges.total_time_in_millis"),
-
-    ## REFRESH
-    'indices.refresh.total': Stat("counter", "nodes.%s.indices.refresh.total"),
-    'indices.refresh.time': Stat("counter", "nodes.%s.indices.refresh.total_time_in_millis"),
+    ##CPU
+    'process.cpu.percent': Stat("gauge", "nodes.%s.process.cpu.percent"),
 }
 
 # DICT: Common stuff
@@ -125,6 +96,8 @@ STATS = {
     'indices.indexing.index-time': Stat("counter", "nodes.%s.indices.indexing.index_time_in_millis"),
     'indices.indexing.delete-total': Stat("counter", "nodes.%s.indices.indexing.delete_total"),
     'indices.indexing.delete-time': Stat("counter", "nodes.%s.indices.indexing.delete_time_in_millis"),
+    'indices.indexing.index-current': Stat("gauge", "nodes.%s.indices.indexing.index_current"),
+    'indices.indexing.delete-current': Stat("gauge", "nodes.%s.indices.indexing.delete_current"),
 
     ## GET
     'indices.get.total': Stat("counter", "nodes.%s.indices.get.total"),
@@ -133,12 +106,13 @@ STATS = {
     'indices.get.exists-time': Stat("counter", "nodes.%s.indices.get.exists_time_in_millis"),
     'indices.get.missing-total': Stat("counter", "nodes.%s.indices.get.missing_total"),
     'indices.get.missing-time': Stat("counter", "nodes.%s.indices.get.missing_time_in_millis"),
+    'indices.get.current': Stat("gauge", "nodes.%s.indices.get.current"),
 
     ## SEARCH
     'indices.search.query-current': Stat("gauge", "nodes.%s.indices.search.query_current"),
     'indices.search.query-total': Stat("counter", "nodes.%s.indices.search.query_total"),
     'indices.search.query-time': Stat("counter", "nodes.%s.indices.search.query_time_in_millis"),
-    'indices.search.fetch-current': Stat("counter", "nodes.%s.indices.search.fetch_current"),
+    'indices.search.fetch-current': Stat("gauge", "nodes.%s.indices.search.fetch_current"),
     'indices.search.fetch-total': Stat("counter", "nodes.%s.indices.search.fetch_total"),
     'indices.search.fetch-time': Stat("counter", "nodes.%s.indices.search.fetch_time_in_millis"),
 
@@ -162,7 +136,7 @@ STATS = {
 
     # HTTP METRICS #
     'http.current_open': Stat("gauge", "nodes.%s.http.current_open"),
-    'http.total_open': Stat("gauge", "nodes.%s.http.total_opened"),
+    'http.total_open': Stat("counter", "nodes.%s.http.total_opened"),
 
     # PROCESS METRICS #
     'process.open_file_descriptors': Stat("gauge", "nodes.%s.process.open_file_descriptors"),
