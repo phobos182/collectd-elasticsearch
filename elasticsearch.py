@@ -120,6 +120,7 @@ STATS = {
     ## MEM
     'jvm.mem.heap-committed': Stat("bytes", "nodes.%s.jvm.mem.heap_committed_in_bytes"),
     'jvm.mem.heap-used': Stat("bytes", "nodes.%s.jvm.mem.heap_used_in_bytes"),
+    'jvm.mem.heap-used-percent': Stat("percent", "nodes.%s.jvm.mem.heap_used_percent"),
     'jvm.mem.non-heap-committed': Stat("bytes", "nodes.%s.jvm.mem.non_heap_committed_in_bytes"),
     'jvm.mem.non-heap-used': Stat("bytes", "nodes.%s.jvm.mem.non_heap_used_in_bytes"),
 
@@ -175,7 +176,7 @@ def configure_callback(conf):
             collectd.warning('elasticsearch plugin: Unknown config key: %s.'
                              % node.key)
     if ES_VERSION == "1.0":
-        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_nodes/stats/transport,http,process,jvm,indices"
+        ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_nodes/_local/stats/transport,http,process,jvm,indices"
         STATS_CUR = dict(STATS.items() + STATS_ES1.items())
     else:
         ES_URL = "http://" + ES_HOST + ":" + str(ES_PORT) + "/_cluster/nodes/_local/stats?http=true&process=true&jvm=true&transport=true"
